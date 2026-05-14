@@ -6,7 +6,7 @@ Lemmikloomahotelli projekt on broneerimis- ja haldussüsteem, mis aitab muuta kl
 - **Töötajad**: Lemmikloomahotelli personal, kes haldavad saabuvaid broneeringuid ning saavad klientidega pilte jagada, et tagada omaniku meelerahu.
 
 ## 2. Meeskond
-- **Tarkvaraarenduse meeskond:** Dima Allikvee (ja teised liikmed)
+- **Tarkvaraarenduse meeskond:** Dima Allikvee, Juri Allikvee ( [JuriAllikvee](https://github.com/JuriAllikvee) )
 
 ## 3. Kasutatavad tehnoloogiad
 - **Frontend (Kliendi ja töötaja vaade):** React.js, Tailwind CSS (kasutajaliides)
