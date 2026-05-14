@@ -11,8 +11,8 @@ Lemmikloomahotelli projekt on broneerimis- ja haldussüsteem, mis aitab muuta kl
 ## 3. Kasutatavad tehnoloogiad
 - **Frontend (Kliendi ja töötaja vaade):** React.js, Tailwind CSS (kasutajaliides)
 - **Backend (Server ja andmetöötlus):** Node.js, Express.js
-- **Andmebaas:** PostgreSQL (broneeringute ja klientide andmete hoidmiseks)
-- **Pilveteenused ja pildihoidla:** AWS S3 (või sarnane teenus lemmikloomade piltide hoiustamiseks)
+- **Andmebaas ja tagasisüsteem (BaaS):** Supabase (PostgreSQL andmebaas ja autentimine)
+- **Pilveteenused ja pildihoidla:** Supabase Storage (lemmikloomade piltide hoiustamiseks)
 - **Koodihaldus ja projektijuhtimine:** GitHub, GitHub Projects (Kanban)
 
 ## 4. Valitud arhitektuur ja metoodika
