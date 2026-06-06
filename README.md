@@ -84,3 +84,27 @@ Projekti arendus on jaotatud nelja kahenädalasse sprinti:
   - Piltide üleslaadimise süsteemi arendus ja ühendamine kliendi vaatega.
   - Kogu süsteemi testimine (funktsionaalne, turvalisus ja jõudlus).
   - Lõplik vigade parandus ning üleandmine.
+
+## 8. Projekti ajakava (Gantti diagramm)
+
+```mermaid
+gantt
+    title Projekti "Lemmikloomahotell" ajakava
+    dateFormat YYYY-MM-DD
+    
+    section Sprint 1
+    Süsteemi analüüs ja Figma disain :a1, 2026-06-08, 5d
+    Projekti algseadistus ja andmebaasi skeem :a2, 2026-06-10, 5d
+    
+    section Sprint 2
+    Autentimine ja sisselogimise funktsionaalsus :a3, 2026-06-15, 5d
+    Broneerimissüsteem ja API loomine :a4, 2026-06-17, 5d
+    
+    section Sprint 3
+    Makselahenduse integreerimine :a5, 2026-06-22, 4d
+    Lemmikloomade piltide jagamine ja testimine :a6, 2026-06-24, 5d
+    
+    section Lõpetamine
+    Projekti ajakava ja dokumentatsioon :a7, 2026-06-06, 2d
+    Projekti esitlemine :2026-06-28, 1d
+```
