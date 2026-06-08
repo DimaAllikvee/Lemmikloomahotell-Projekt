@@ -127,107 +127,16 @@ Süsteemi käivitamiseks on vajalik järgmine tarkvara:
 
 ### 9.2 Andmebaasi seadistamine
 
-Rakendus kasutab andmebaasina **Supabase (PostgreSQL)** platvormi. Järgi neid samme andmebaasi seadistamiseks:
+Projekt kasutab andmebaasina ja autentimiseks pilvepõhist **Supabase (BaaS)** platvormi.
 
-#### Samm 1: Supabase projekti loomine
-1. Logi sisse või loo konto aadressil [supabase.com](https://supabase.com/).
-2. Loo uus projekt nimega `Lemmikloomahotell`.
-3. Salvesta projekti **URL** ja **API Key (anon public)**, mida vajad hiljem keskkonnamuutujate seadistamisel.
-
-#### Samm 2: Andmebaasi skeemi loomine
-Ava Supabase paneelis **SQL Editor**, loo uus päring ja kopeeri sinna alljärgnev SQL-skeem, et luua vajalikud tabelid ja seosed:
-
-```sql
--- 1. Kasutajate profiilide tabel (seotud Supabase Autentimisega)
-CREATE TABLE public.profiles (
-    id UUID REFERENCES auth.users ON DELETE CASCADE PRIMARY KEY,
-    name TEXT NOT NULL,
-    role TEXT CHECK (role IN ('client', 'worker')) DEFAULT 'client',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
-);
-
--- Luba profiilide tabeli lugemine kõigile autentitud kasutajatele
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Kasutajad saavad näha kõiki profiile" ON public.profiles 
-    FOR SELECT TO authenticated USING (true);
-
--- 2. Lemmikloomade tabel
-CREATE TABLE public.pets (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    owner_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
-    name TEXT NOT NULL,
-    species TEXT NOT NULL, -- nt. koer, kass
-    age INT,
-    description TEXT,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
-);
-
-ALTER TABLE public.pets ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Kasutajad saavad näha enda lemmikloomi" ON public.pets 
-    FOR ALL TO authenticated USING (auth.uid() = owner_id);
-
--- 3. Broneeringute tabel
-CREATE TABLE public.bookings (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    pet_id UUID REFERENCES public.pets(id) ON DELETE CASCADE NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    status TEXT CHECK (status IN ('pending', 'confirmed', 'cancelled')) DEFAULT 'pending',
-    total_price NUMERIC(10, 2) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
-);
-
-ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Kliendid näevad oma broneeringuid" ON public.bookings 
-    FOR SELECT TO authenticated USING (
-        auth.uid() IN (SELECT owner_id FROM public.pets WHERE id = bookings.pet_id)
-    );
-CREATE POLICY "Töötajad näevad kõiki broneeringuid" ON public.bookings 
-    FOR ALL TO authenticated USING (
-        EXISTS (SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'worker')
-    );
-
--- 4. Piltide tabel (lemmikloomade piltide viited)
-CREATE TABLE public.photos (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    booking_id UUID REFERENCES public.bookings(id) ON DELETE CASCADE NOT NULL,
-    url TEXT NOT NULL,
-    uploaded_by UUID REFERENCES public.profiles(id) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc'::text, NOW()) NOT NULL
-);
-
-ALTER TABLE public.photos ENABLE ROW LEVEL SECURITY;
-CREATE POLICY "Kasutajad näevad oma lemmikloomade pilte" ON public.photos 
-    FOR SELECT TO authenticated USING (
-        auth.uid() IN (
-            SELECT owner_id FROM public.pets p 
-            JOIN public.bookings b ON p.id = b.pet_id 
-            WHERE b.id = photos.booking_id
-        )
-    );
-```
-
-#### Samm 3: Testiandmete laadimine
-Kopeeri ja käivita SQL Editoris järgmised käsud testiandmete sisestamiseks:
-
-```sql
--- Lisame näitlikud profiilid (tavaliselt tekivad automaatselt registreerumisel)
--- Asenda '00000000-0000-0000-0000-000000000000' reaalsete kasutaja UUID-dega
-INSERT INTO public.profiles (id, name, role) VALUES 
-('d1a3c748-43bf-4786-90bd-1c9f80a0678d', 'Mari Murakas', 'client'),
-('e2a4c849-44cf-4887-91bd-2c9f80b0679e', 'Jaan Tamm', 'worker')
-ON CONFLICT (id) DO NOTHING;
-
--- Lisame lemmikloomad
-INSERT INTO public.pets (id, owner_id, name, species, age, description) VALUES 
-('a1a3c748-43bf-4786-90bd-1c9f80a0678d', 'd1a3c748-43bf-4786-90bd-1c9f80a0678d', 'Muri', 'Koer', 3, 'Sõbralik kuldne retriiver, kes armastab palle.')
-ON CONFLICT (id) DO NOTHING;
-
--- Lisame näitliku broneeringu
-INSERT INTO public.bookings (id, pet_id, start_date, end_date, total_price, status) VALUES 
-('b1a3c748-43bf-4786-90bd-1c9f80a0678d', 'a1a3c748-43bf-4786-90bd-1c9f80a0678d', '2026-07-01', '2026-07-07', 150.00, 'pending')
-ON CONFLICT (id) DO NOTHING;
-```
+#### Seadistamise sammud:
+1. Loo konto ja uus projekt aadressil [supabase.com](https://supabase.com/).
+2. Loo andmebaasis vajalikud põhitabelid (nt Supabase SQL Editori või Table Editori kaudu):
+   * `profiles` (kasutajate profiilid ja rollid: client, worker)
+   * `pets` (lemmikloomad)
+   * `bookings` (broneeringud)
+   * `photos` (lemmikloomade pildid)
+3. Kopeeri projekti seadetest **Project URL** ja **API anon key**, et lisada need keskkonnamuutujate `.env` failidesse (vt jaotist 9.3).
 
 ---
 
