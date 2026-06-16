@@ -219,4 +219,5 @@ Süsteemi toimivust saad kontrollida järgmiselt:
 | Tööjõud – Projektijuht | 60 tundi | 40 € / h | 2 400,00 € |
 | Serveri rent (VPS, 1 aasta) | 12 kuud | 5,50 € / kuu | 66,00 € |
 | Domeen (.ee, 1 aasta) | 1 tk | 12,00 € | 12,00 € |
-| **KOGUSUMMA** | | | **6 678,00 €** |
+| Claude Code (Pro, 1 aasta) | 12 kuud | 20,00 € / kuu | 240,00 € |
+| **KOGUSUMMA** | | | **6 918,00 €** |
