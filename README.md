@@ -201,3 +201,22 @@ Süsteemi toimivust saad kontrollida järgmiselt:
    Ava veebilehitsejas `http://localhost:5173` (või terminalis kuvatud aadress). Peaks avanema lemmikloomahotelli avaleht.
 3. **Supabase Ühendus**:
    Proovi registreerida uus kasutaja frontendi liideses. Kui konto tekib Supabase Auth sektsiooni ja andmebaasi tabelisse `public.profiles`, on ühendus edukalt loodud.
+
+## 10. Ressursid ja Tehnoloogiad
+
+### Tehnoloogiline Pinu (Tech Stack & Tools)
+
+- **Infrastruktuur:** 1x VPS-server (2 GB RAM, 1 vCPU, Ubuntu 24.04). See on minimaalne konfiguratsioon Node.js backendi ja React frontendi majutamiseks.
+- **Tarkvara:** Node.js (v18.0.0+), npm (v10.0.0+), Git (v2.40+), React, Tailwind CSS, Express.js.
+- **Välised teenused:** Supabase (BaaS PostgreSQL andmebaasi ja autentimise jaoks). 
+
+### Virtuaalse Eelarve Koostamine
+
+| Ressursi tüüp | Kogus / Maht | Ühiku hind | KOKKU (€) |
+| --- | --- | --- | --- |
+| Tööjõud – Arendaja 1 | 60 tundi | 35 € / h | 2 100,00 € |
+| Tööjõud – Arendaja 2 | 60 tundi | 35 € / h | 2 100,00 € |
+| Tööjõud – Projektijuht | 60 tundi | 40 € / h | 2 400,00 € |
+| Serveri rent (VPS, 1 aasta) | 12 kuud | 5,50 € / kuu | 66,00 € |
+| Domeen (.ee, 1 aasta) | 1 tk | 12,00 € | 12,00 € |
+| **KOGUSUMMA** | | | **6 678,00 €** |
